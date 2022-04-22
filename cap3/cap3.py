@@ -303,7 +303,7 @@ if __name__ == '__main__':
     import numpy as np
 
     # Create date range
-    time_index = pd.date_range('06/06/2017', periods= 100000, freq='30S')
+    time_index = pd.date_range('06/06/2017', periods=100000, freq='30S')
 
     # Create DataFrame
     dataframe = pd.DataFrame(index=time_index)
@@ -325,3 +325,114 @@ if __name__ == '__main__':
 
     # Group by month, count rows
     print(dataframe.resample('M', label='left').count())
+
+    # 3.15
+    # Load library
+    import pandas as pd
+
+    # Create URL
+    url = 'https://raw.githubusercontent.com/chrisalbon/simulated_datasets/master/titanic.csv'
+
+    # Load data
+    dataframe = pd.read_csv(url)
+
+    # Print first two names uppercased
+    for name in dataframe['Name'][0:2]:
+        print(name.upper())
+
+    # Show first two names uppercased
+    print([name.upper() for name in dataframe['Name'][0:2]])
+
+    # 3.16
+    # Load library
+    import pandas as pd
+
+    # Create URL
+    url = 'https://raw.githubusercontent.com/chrisalbon/simulated_datasets/master/titanic.csv'
+
+    # Load data
+    dataframe = pd.read_csv(url)
+
+
+    # Create function
+    def uppercase(x):
+        return x.upper()
+
+
+    # Apply function, show two rows
+    print(dataframe['Name'].apply(uppercase)[0:2])
+
+    # 3.17
+    # Load library
+    import pandas as pd
+
+    # Create URL
+    url = 'https://raw.githubusercontent.com/chrisalbon/simulated_datasets/master/titanic.csv'
+
+    # Load data
+    dataframe = pd.read_csv(url)
+
+    # Group rows, apply function to groups
+    print(dataframe.groupby('Sex').apply(lambda x: x.count()))
+
+    # 3.18
+    # Load library
+    import pandas as pd
+
+    # Create DataFrame
+    data_a = {
+        'id': ['1', '2', '3'],
+        'first': ['Alex', 'Amy', 'Allen'],
+        'last': ['Anderson', 'Ackerman', 'Ali']
+    }
+    dataframe_a = pd.DataFrame(data_a, columns=['id', 'first', 'last'])
+
+    # Create DataFrame
+    data_b = {
+        'id': ['4', '5', '6'],
+        'first': ['Billy', 'Brian', 'Bran'],
+        'last': ['Bonder', 'Black', 'Balwner']
+    }
+    dataframe_b = pd.DataFrame(data_b, columns=['id', 'first', 'last'])
+
+    # Concatenate DataFrames by rows
+    print(pd.concat([dataframe_a, dataframe_b], axis=0))
+
+    # Concatenate DataFrames by columns
+    print(pd.concat([dataframe_a, dataframe_b], axis=1))
+
+    # Create row
+    row = pd.Series([10, 'Chris', 'Chillon'], index=['id', 'first', 'last'])
+
+    # Append row
+    print(dataframe_a.append(row, ignore_index=True))
+
+    # 3.19
+    # Load library
+    import pandas as pd
+
+    # Create DataFrame
+    employee_data = {
+        'employee_id': ['1', '2', '3', '4'],
+        'name': ['Amy Jones', 'Allen Keys', 'Alice Bees', 'Tim Horton']
+    }
+    dataframe_employees = pd.DataFrame(employee_data, columns= ['employee_id', 'name'])
+
+    # Create DataFrame
+    sales_data = {
+        'employee_id': ['3', '4', '5', '6'],
+        'total_sales': [23456, 2512, 2345, 1455]
+    }
+    dataframe_sales = pd.DataFrame(sales_data, columns=['employee_id', 'total_sales'])
+
+    # Merge DataFrames
+    print(pd.merge(dataframe_employees, dataframe_sales, on='employee_id'))
+
+    # Merge DataFrames
+    print(pd.merge(dataframe_employees, dataframe_sales, on='employee_id', how='outer'))
+
+    # Merge DataFrames
+    print(pd.merge(dataframe_employees, dataframe_sales, on='employee_id', how='left'))
+
+    # Merge DataFrames
+    print(pd.merge(dataframe_employees, dataframe_sales, left_on='employee_id', right_on='employee_id'))
